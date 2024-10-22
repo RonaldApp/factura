@@ -1,0 +1,729 @@
+<!doctype html>
+
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+   <link rel="stylesheet" href="back-end/css/stilos.css"/>
+       <script>
+        
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                // Configuración personalizada si es necesario
+                "paging": true,      // Activar paginación
+                "searching": false,   // Activar búsqueda
+                "ordering": true,    // Activar ordenación de columnas
+                "pageLength": 5,     // Mostrar 5 filas por página
+                "lengthMenu": [5, 10, 25, 50], // Opciones de número de filas por página
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ registros por página",
+                    "zeroRecords": "No se encontraron registros",
+                    "info": "Mostrando página _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros disponibles",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        });
+          </script>
+   <style>
+    /* Opcional: puedes ajustar los estilos de la tabla según tus necesidades */
+   
+    
+        /* Contenedor principal */
+        .form-container {
+            display: flex;
+            width: 480px;
+            flex-direction: column;
+            /* Para que las filas sigan una debajo de la otra */
+            padding: 0;
+            margin: 0;
+            border: 1px solid red;
+        }
+
+        .form-factura-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+            margin: 10px;
+            /*                border: 1px solid red;*/
+        }
+
+        .form-row {
+            display: flex;
+            /* Alinea las etiquetas y los inputs en una fila */
+            align-items: center;
+            /* Alinea los elementos verticalmente */
+            margin-bottom: 10px;
+            /* Espacio entre filas, ajústalo según sea necesario */
+        }
+
+        .form-header {
+            margin-right: 10px;
+            /* Ajusta este valor para acercar o alejar la etiqueta del input */
+            font-size: 1rem;
+            color: #458685;
+            white-space: nowrap;
+            /* Evita que la etiqueta se divida en varias líneas */
+        }
+
+        .form-input {
+            flex-basis: 250px;
+            /* El input tendrá un ancho inicial de 250px */
+            flex-grow: 0;
+            /* Evita que el input crezca más allá de 250px */
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 3px;
+            /* Ajusta el padding interno del input */
+            font-size: 0.85rem;
+            border-color: #458685;
+            background-color: #fff;
+            box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+            outline: none;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            background-color: #458685;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 7px;
+        }
+
+        .form-select {
+            padding: 4px;
+        }
+       /* Estilo para la tabla */
+#myTable {
+    width: 100%; /* Asegura que la tabla use todo el ancho disponible */
+    border-collapse: collapse; /* Elimina el espacio entre bordes */
+    background-color: #f9f9f9; /* Fondo claro */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+}
+
+/* Encabezados */
+#myTable th {
+    background-color: #458685; /* Color de fondo para el encabezado */
+    color: white; /* Color de texto del encabezado */
+    padding: 10px; /* Espaciado interno */
+    text-align: left; /* Alineación del texto */
+    font-weight: bold; /* Texto en negrita */
+    border-bottom: 2px solid #ddd; /* Línea separadora del encabezado */
+}
+
+/* Celdas de contenido */
+#myTable td {
+    padding: 8px; /* Espaciado interno */
+    border-bottom: 1px solid #ddd; /* Línea separadora entre filas */
+    color: #333; /* Color del texto */
+}
+
+/* Alternar colores de fila */
+#myTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Color alterno para las filas pares */
+}
+
+/* Efecto hover para las filas */
+#myTable tbody tr:hover {
+    background-color: #e2f3f1; /* Cambia el color de fondo al pasar el mouse */
+}
+
+/* Ajustar los botones dentro de la tabla */
+#myTable .btn {
+    padding: 4px 10px; /* Botones más pequeños */
+    font-size: 12px; /* Texto más pequeño en el botón */
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave de color */
+}
+
+/* Hover en los botones */
+#myTable .btn-outline-danger:hover {
+    background-color: #d9534f; /* Cambia el color del botón cuando pasa el ratón */
+    color: white; /* Color del texto del botón */
+}
+
+/* Bordes redondeados para las celdas */
+#myTable td, #myTable th {
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+}
+
+/* Estilo de borde más suave */
+#myTable td {
+    border-bottom: 1px solid #ccc; /* Bordes entre filas */
+}
+
+/* Texto más pequeño para toda la tabla */
+#myTable td, #myTable th {
+    font-size: 12px; /* Tamaño de texto ajustado */
+}
+/* Estilo personalizado para el botón */
+.custom-btn {
+    background-color: #458685; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    border: none; /* Quita el borde */
+    padding: 8px 12px; /* Tamaño del botón */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.custom-btn:hover {
+    background-color: #6eaaa9; /* Color del botón cuando pasa el ratón */
+    color: white; /* Mantiene el color del texto blanco */
+}
+
+   </style>
+</head>
+
+<body>
+    <form>
+        <br>
+        <div class="form-factura-container" >
+            <div class="row" align-items-end>
+                <div class="col-6 col-sm-4" style="width:500px;border-right: 2px solid; color:#458685;">
+                    <h4 style="color: #458685;text-align: left">Datos del Usuario:</h4>
+                    <div class="row">
+                        <div class="col-6 col-sm-3" style="width: 90px">Nombres:</div>
+                        <div class="col-6 col-sm-3" style="width: 400px">
+                            <input type="text" name="nombres" id="idnom" class="form-control"
+                                value="RONALD DE JESUS DIAZ MOSCOTE" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+
+                        </div>
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">Tipo:</div>
+                        <div class="col-6 col-sm-3" style="width: 100px">
+                            <input type="text" name="tipo" id="idtipodoc" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">Documento:</div>
+                        <div class="col-6 col-sm-3" style="width: 200px">
+                            <input type="text" name="documento" id="iddoc" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px"></div>
+                        <div class="col-6 col-sm-3">
+                            <button type="button" class="btn custom-btn" style="border-radius: 8px;width: 180px;padding: 4px;">
+                            <img src="back-end/iconos/buscar-documento.png" alt="icono" style="width: 20px; height: 20px; margin-right: 8px;">Buscar
+                            </button>
+                        </div>
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">Edad:</div>
+                        <div class="col-6 col-sm-3" style="width: 100px">
+                            <input type="text" name="edad" id="idedad" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">Sexo:</div>
+                        <div class="col-6 col-sm-3" style="width: 100px">
+                            <input type="text" name="sexo" id="idsexo" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">FechaNac:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="date" name="fecha" id="idnaci" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px; width: 150px;
+                                    " />
+                        </div>
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+                        <div class="col-6 col-sm-3" style="width: 90px">Telefono:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="tel" name="celular" id="idcel" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px; width: 150px;
+                                    " />
+                        </div>
+                    </div>
+                </div>
+                <!-- datos de facturacion -->
+                <div class="col-6 col-sm-4" style="width:600px;border-right: 2px solid; color:#458685;">
+                    <div class="row">
+                        <h4 style="color: #458685">Datos de Factura:</h4>
+                        <div class="col-6 col-sm-3" style="width: 90px">Factura:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="text" name="Factura" id="idfact" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+
+                        <!-- Force next columns to break to new line -->
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Fecha:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="date" name="fecha" id="idfecha" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Hora:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="time" name="tiempo" id="idtiempo" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Modalidad:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="text" name="modalidad" id="idmodalidad" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Entidad:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="text" name="entidad" id="identidad" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Regimen:</div>
+                        <div class="col-6 col-sm-3">
+                            <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px">Contrato:</div>
+                        <div class="col-6 col-sm-3" style="width: 300px">
+                            <select class="form-select" id="selector" aria-label="Large select example" style="
+                                        width: 100%;
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px; padding: 4px;
+                                    ">
+                                <option selected="selected">selecciona contrato</option>
+                                <option value="1">contrato_2022</option>
+                                <option value="2">contrato_2023</option>
+                                <option value="3">contrato_2024</option>
+                            </select>
+                        </div>
+                        <div class="form-row"></div>
+
+                        <div class="col-6 col-sm-3" style="width: 90px"></div>
+                        <div class="col-6 col-sm-3">
+                            <button type="submit" style="border-radius: 8px;width: 200px;padding: 4px;" class="btn custom-btn">
+                                <img src="back-end/iconos/descargas.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Cargar</button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col" style="width:800px;border-right: 2px solid; color:#458685;">
+                    <div class="form-row"></div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Cuota Moderadora</label>
+                      </div>
+                      <div class="form-row"></div>
+                      <div class="col-6 col-sm-3" style="width: 90px">Factura:</div>
+                      <div class="col-6 col-sm-3">
+                          <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                      border-color: #458685;
+                                      background-color: #fff;
+                                      box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                      outline: none;
+                                      border-radius: 8px;
+                                  " />
+                      </div>
+                      <div class="form-row"></div>
+                      <div class="col-6 col-sm-3" style="width: 200px">Valor Cuota Moderadora:</div>
+                      <div class="col-6 col-sm-3">
+                          <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                      border-color: #458685;
+                                      background-color: #fff;
+                                      box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                      outline: none;
+                                      border-radius: 8px; width: 150px;
+                                  " />
+                      </div>
+                      <div class="form-row"></div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">IdMipres AP/OT</label>
+                      </div>
+                      <div class="col-6 col-sm-3">
+                        <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; width: 200px;
+                                " />
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3" style="width: 200px">Sub Total</div>
+                    <div class="col-6 col-sm-3">
+                        <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; width: 150px;
+                                " />
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3" style="width: 200px">Valor Total:</div>
+                    <div class="col-6 col-sm-3">
+                        <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; width: 150px;
+                                " />
+                    </div>
+                </div>
+                <div class="col" style="width:800px">
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3">
+                        <button type="submit" style="width: 200px; padding: 4px;" class="btn custom-btn">
+                            <img src="back-end/iconos/ingenieria.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Procesar</button>
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3">
+                        <button type="submit" style="border-radius: 8px;width: 200px; padding: 4px;" class="btn custom-btn">
+                            <img src="back-end/iconos/impresora.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Imprimir</button>
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3">
+                        <button type="submit" style="border-radius: 8px;width: 200px; padding: 4px;" class="btn custom-btn">
+                            <img src="back-end/iconos/agregar-archivo.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Nueva</button>
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3" style="width: 200px">Facturador:</div>
+                    <div class="col-6 col-sm-3">
+                        <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; width: 350px;
+                                " />
+                    </div>
+                    <div class="form-row"></div>
+                    <div class="col-6 col-sm-3">
+                        <button type="button" style="border-radius: 8px;width: 200px; padding: 4px;" class="btn custom-btn">
+                            <img src="back-end/iconos/inicio.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Inicio</button>
+                    </div>
+                </div>
+                
+
+
+              
+                <!--       ENCABEZADO TERMINADO>-->
+                
+
+        </div>
+        
+               <div class="form-factura-container">
+            <div class="row" align-items-end>
+                <div class="col-6 col-sm-4" style=" width:450px">
+                    <div style="text-align:left;">centro de Producción:</div>
+                    <div>
+                        <select class="form-control form-select" id="selector" aria-label="Large select example" style="
+                                        width: 400px;
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px; padding: 4px;
+                                    ">
+                            <option selected="selected">selecciona contrato</option>
+                            <option value="1">contrato_2022</option>
+                            <option value="2">contrato_2023</option>
+                            <option value="3">contrato_2024</option>
+                        </select>
+                    </div>
+               </div>
+              <div class="col-6 col-sm-4" style="width:150px">
+                <div style="width: 150px">Codigo Cups:</div>
+                    <div>
+                        <input type="text" name="regimen" id="idregimen" class="form-control" style="
+                                        width: 100px;
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                    </div>
+              </div>
+              <div class="col-6 col-sm-4" style="width:900px">
+                <div style="text-align:left;">Descripción:</div>
+                <div>
+                    <select class="form-control form-select" id="selector" aria-label="Large select example" style="
+                                    width: 850px;
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; padding: 4px;
+                                ">
+                        <option selected="selected">selecciona Procedimiento</option>
+                        <option value="1">ELECTROCARDIOGRAMA DE ALTA RESOLUCION [ESTUDIO DE POTENCIALES TARDIOS] +</option>
+                        <option value="2">ENUCLEACIÓN, RESECCIÓN Y CURETAJE DE LESIONES BENIGNAS EN MAXILAR SUPERIOR O INFERIOR, DE MENOS DE TRES CMS, VÍA TRANSCUTÁNEA</option>
+                        <option value="3">ESCALENOTOMÍA O SECCIÓN DE ESCALENO ANTERIOR SIN RESECCIÓN DE COSTILLA CERVICAL</option>
+                    </select>
+                </div>
+              </div>
+              <div class="col-6 col-sm-4" style=" width:200px">
+                <div style="text-align:left;">Cantidad</div>
+                <div>
+                    <input type="text" name="regimen" id="idCantidad" class="form-control" style="
+                                        width: 130px;
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                </div>
+              </div>
+            </div>
+            <div class="row" align-items-end>
+                <div class="col-8 col-sm-4" style="width:200px">
+                    <div style="text-align:left;">Valor Unitario</div>
+                    <div>
+                        <input type="text" name="regimen" id="idCantidad" class="form-control" style="
+                                            width: 150px;
+                                            border-color: #458685;
+                                            background-color: #fff;
+                                            box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                            outline: none;
+                                            border-radius: 8px;
+                                        " />
+                    </div>
+                   </div>
+                  <div class="col-8 col-sm-4" style="width:200px">
+                    <div style="text-align:left;">Valor Total</div>
+                    <div>
+                        <input type="text" name="regimen" id="idCantidad" class="form-control" style="
+                                            width: 150px;
+                                            border-color: #458685;
+                                            background-color: #fff;
+                                            box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                            outline: none;
+                                            border-radius: 8px;
+                                        " />
+                    </div>
+                  </div>
+                  <div class="col-8 col-sm-4" style="width:400px">
+                    <div style="text-align:left;">Profesional:</div>
+                <div>
+                    <select class="form-control form-select" id="selector" aria-label="Large select example" style="
+                                    width: 350px;
+                                    border-color: #458685;
+                                    background-color: #fff;
+                                    box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                    outline: none;
+                                    border-radius: 8px; padding: 4px;
+                                ">
+                        <option selected="selected">selecciona Profesional</option>
+                        <option value="1">YAZMIN CECILIA MALOOF PINTO</option>
+                        <option value="2">ZHARICH MAYERLIN TRILLOS  FELIZZOLA</option>
+                        <option value="3">ESTHER JULIETH VARELA DE LA HOZ</option>
+                        <option value="4">JOSE FERNANDO RANGEL FUENTES</option>
+                        <option value="5">LELYS AMPARO GORDILLO GUTIERREZ</option>
+                    </select>
+                </div>
+                  </div>
+                  <div class="col-8 col-sm-4" style="width:300px">
+                    <div style="text-align:left;">Autorizacion</div>
+                <div>
+                    <input type="text" name="regimen" id="idCantidad" class="form-control" style="
+                                        width: 250px;
+                                        border-color: #458685;
+                                        background-color: #fff;
+                                        box-shadow: 0 0 8px rgba(47, 187, 133, 0.6);
+                                        outline: none;
+                                        border-radius: 8px;
+                                    " />
+                </div>
+                  </div>
+                  <div class="col-8 col-sm-4" style="width:300px">
+                    <br>
+                    <div style="text-align:left;">
+                        </div>
+                <div>
+                    <button type="button" class="btn custom-btn" style="border-radius: 8px;width: 150px; padding: 4px;">
+                        <img src="back-end/iconos/subir.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Anexar    
+                </button>
+                </div>
+                  </div>
+            </div>
+          </div>
+          <div class="form-factura-container">
+            <table id="myTable" class="display" style="width:100%; font-size: 12px;">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Código Cups</th>
+                        <th>Descripción</th>
+                        <th>Cantidad</th>
+                        <th>Valor Unitario</th>
+                        <th>Valor Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>890283</td>
+                        <td>CONSULTA DE PRIMERA VEZ POR ESPECIALISTA EN PEDIATRÍA</td>
+                        <td>1</td>
+                        <td>75000</td>
+                        <td>75000</td>
+                        <td><button type="button" class="btn btn-danger">
+                            <img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>903815</td>
+                        <td>COLESTEROL DE ALTA DENSIDAD (HDL)</td>
+                        <td>1</td>
+                        <td>7500</td>
+                        <td>7500</td>
+                        <td><button type="button" class="btn btn-danger"><img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>903818</td>
+                        <td>COLESTEROL TOTAL</td>
+                        <td>1</td>
+                        <td>7500</td>
+                        <td>7500</td>
+                        <td><button type="button" class="btn btn-danger"><img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>903817</td>
+                        <td>COLESTEROL DE BAJA DENSIDAD [LDL] AUTOMATIZADO</td>
+                        <td>1</td>
+                        <td>8000</td>
+                        <td>8000</td>
+                        <td><button type="button" class="btn btn-danger"><img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>903824</td>
+                        <td>CREATININA EN ORINA DE 24 HORAS</td>
+                        <td>1</td>
+                        <td>6000</td>
+                        <td>6000</td>
+                        <td><button type="button" class="btn btn-danger"><img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>903824</td>
+                        <td>CREATININA EN ORINA DE 24 HORAS</td>
+                        <td>1</td>
+                        <td>6000</td>
+                        <td>6000</td>
+                        <td><button type="button" class="btn btn-danger"><img src="back-end/iconos/papelera-de-reciclaje.png" alt="icono"style="width: 20px; height: 20px; margin-right: 8px;">Eliminar</button></td>
+                    </tr>
+                </tbody>
+              </table>
+              <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+              <script>
+                
+                $(document).ready(function() {
+                    $('#myTable').DataTable();  // Inicializa DataTables en la tabla
+                });
+            </script>
+          </div>
+    </form>
+</body>
+
+</html>
